@@ -36,30 +36,29 @@ export default function ThankYou(){
             "ขอบคุณที่อดทน เข้าใจ และรักกันในทุก ๆ เรื่อง",
             "ขออยู่กันแบบนี้นานๆนะ",
             "จากนี้ไป... จะตั้งใจดูแลหัวใจของเราให้ดีที่สุด 🤍",
-
-            "2023->2024->2025..."
+            "2023->2024->2025"
           ]}
-          speed={100}
+          speed={40}
           sound
           onDone={() => setShowVideo(true)}
         />
 
         {showVideo && (
-  <div className="video-wrap portrait">
-    <video
-      ref={videoRef}
-      className="video vertical"
-      src="/videos/fan.mp4"   // ✅ ใช้ path นี้ (ไม่ต้องมี public)
-      autoPlay
-      loop
-      muted
-      playsInline
-      preload="auto"
-      // controls   // ถ้าอยากให้มีปุ่มเล่น/หยุด
-    />
-  </div>
-)}
-
+          <div className="video-wrap portrait">
+            <video
+              ref={videoRef}
+              className="video vertical"
+              src="/videos/new fan.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="auto"
+              // ถ้าอยากให้มีปุ่มควบคุมด้วย ให้เปิดบรรทัดด้านล่าง
+              // controls
+            />
+          </div>
+        )}
 
         <div style={{ marginTop: 12 }}>
           <button className="btn" onClick={() => nav("/")}>
