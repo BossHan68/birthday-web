@@ -45,21 +45,21 @@ export default function ThankYou(){
         />
 
         {showVideo && (
-          <div className="video-wrap portrait">
-            <video
-              ref={videoRef}
-              className="video vertical"
-              src="public/videos/new fan.mp4"
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="auto"
-              // ถ้าอยากให้มีปุ่มควบคุมด้วย ให้เปิดบรรทัดด้านล่าง
-              // controls
-            />
-          </div>
-        )}
+  <div className="video-wrap portrait">
+    <video
+      ref={videoRef}
+      className="video vertical"
+      src="/videos/fan.mp4"   // ✅ ใช้ path นี้ (ไม่ต้องมี public)
+      autoPlay
+      loop
+      muted
+      playsInline
+      preload="auto"
+      // controls   // ถ้าอยากให้มีปุ่มเล่น/หยุด
+    />
+  </div>
+)}
+
 
         <div style={{ marginTop: 12 }}>
           <button className="btn" onClick={() => nav("/")}>
