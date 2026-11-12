@@ -4,13 +4,14 @@ import Keypad from "../components/Keypad";
 import AnimatedHearts from "../components/AnimatedHearts";
 import { BIRTHDAY_PIN } from "../config";
 
-// โหลดรูปทั้งหมดที่มีใน public/images อัตโนมัติ (เรียงตามตัวเลข 1, 2, 3...)
+// โหลดรูปความทรงจำทั้งหมดใน public/images อัตโนมัติ (เฉพาะรูปที่เป็นตัวเลข 1, 2, 3... ไม่รวมรูปเกม/หน้าอื่น)
 const imageModules = import.meta.glob("/public/images/*.{jpg,jpeg,png,webp,svg,JPG,JPEG,PNG,WEBP}", {
   eager: true,
 });
 
 const images = Object.keys(imageModules)
   .map((path) => path.replace(/^\/public/, ""))
+  .filter((path) => /^\/images\/\d+\.(jpg|jpeg|png|webp|svg)$/i.test(path))
   .sort((a, b) => {
     const numA = parseInt(a.match(/(\d+)(?!.*\d)/)?.[0] || "0", 10);
     const numB = parseInt(b.match(/(\d+)(?!.*\d)/)?.[0] || "0", 10);
