@@ -1,6 +1,6 @@
-// ปรับ PIN ตามจริงได้เลย (4 หลัก)
+// ปรับ PIN ตามจริงได้เลย
 export const BIRTHDAY_PIN = "2003";
-export const ANNIV_PIN = "2";
+export const ANNIV_PIN = "3";
 
 // สีหลัก (ปรับได้)
 export const theme = {

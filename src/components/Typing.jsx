@@ -1,14 +1,26 @@
 import React, { useEffect, useRef, useState } from "react";
 
-export default function Typing({ lines = [], speed = 45, sound = true, onDone }) {
-  const [output, setOutput] = useState(lines.map(()=>"" ));
-  const idxRef = useRef({ line:0, col:0 });
+export default function Typing({
+  lines = [],
+  speed = 70,
+  linePause = 900,
+  donePause = 1200,
+  sound = true,
+  onDone,
+}) {
+  const [output, setOutput] = useState(lines.map(() => ""));
+  const idxRef = useRef({ line: 0, col: 0 });
   const audioRef = useRef(null);
+  const timerRef = useRef(null);
 
   useEffect(() => {
     if (sound) {
-      audioRef.current = new Audio("/audio/keystroke.mp3"); // ใส่ไฟล์ใน public/audio
-      audioRef.current.volume = 0.4;
+      const a = new Audio("/audio/keystroke.mp3");
+      a.volume = 0.4;
+      a.onerror = () => {
+        audioRef.current = null;
+      };
+      audioRef.current = a;
     }
   }, [sound]);
 
@@ -16,7 +28,9 @@ export default function Typing({ lines = [], speed = 45, sound = true, onDone })
     const tick = () => {
       const { line, col } = idxRef.current;
       if (line >= lines.length) {
-        onDone && onDone();
+        if (onDone) {
+          timerRef.current = setTimeout(onDone, donePause);
+        }
         return;
       }
       const target = lines[line];
@@ -28,30 +42,34 @@ export default function Typing({ lines = [], speed = 45, sound = true, onDone })
         });
         idxRef.current = { line, col: col + 1 };
         if (sound && audioRef.current) {
-          // เล่นเสียงแบบนุ่ม ๆ ทุกตัวอักษร
-          try { audioRef.current.currentTime = 0; audioRef.current.play(); } catch {;}
+          try {
+            audioRef.current.currentTime = 0;
+            const p = audioRef.current.play();
+            if (p && typeof p.catch === "function") p.catch(() => {});
+          } catch {;}
         }
-        schedule();
+        schedule(speed);
       } else {
         idxRef.current = { line: line + 1, col: 0 };
-        schedule(400); // เว้นจังหวะขึ้นบรรทัด
+        schedule(linePause); // เว้นจังหวะขึ้นบรรทัดให้อ่านทัน
       }
     };
-    const schedule = (extra=0) => {
-      timerRef.current = setTimeout(tick, speed + extra * 0.0);
+
+    const schedule = (delay) => {
+      timerRef.current = setTimeout(tick, delay);
     };
-    schedule();
+
+    schedule(speed);
     return () => clearTimeout(timerRef.current);
     // eslint-disable-next-line
   }, []);
 
-  const timerRef = useRef(null);
-
   return (
     <div className="typing">
-      {output.map((t,i)=>(
+      {output.map((t, i) => (
         <p key={i} className="typing-line">
-          {t}{i===output.length-1 && <span className="caret" />}
+          {t}
+          {i === output.length - 1 && <span className="caret" />}
         </p>
       ))}
     </div>

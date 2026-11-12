@@ -6,8 +6,8 @@ import { ANNIV_PIN } from "../config";
 export default function AnniversaryLock() {
   const nav = useNavigate();
 
-  // ใช้เพียง 2 รูปจาก public/images
-  const images = ["/images/kj1.jpg", "/images/kj2.jpg"];
+  // รูป l1 และ l2 จาก public/images ประกบหัวใจตรงกลาง
+  const images = ["/images/l1.jpg", "/images/l2.jpg"];
 
   return (
     <div className="split sparkly">

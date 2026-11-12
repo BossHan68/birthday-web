@@ -4,10 +4,21 @@ import Keypad from "../components/Keypad";
 import AnimatedHearts from "../components/AnimatedHearts";
 import { BIRTHDAY_PIN } from "../config";
 
+// โหลดรูปทั้งหมดที่มีใน public/images อัตโนมัติ (เรียงตามตัวเลข 1, 2, 3...)
+const imageModules = import.meta.glob("/public/images/*.{jpg,jpeg,png,webp,svg,JPG,JPEG,PNG,WEBP}", {
+  eager: true,
+});
+
+const images = Object.keys(imageModules)
+  .map((path) => path.replace(/^\/public/, ""))
+  .sort((a, b) => {
+    const numA = parseInt(a.match(/(\d+)(?!.*\d)/)?.[0] || "0", 10);
+    const numB = parseInt(b.match(/(\d+)(?!.*\d)/)?.[0] || "0", 10);
+    return numA - numB;
+  });
+
 export default function BirthdayLock() {
   const nav = useNavigate();
-  const images = Array.from({ length: 8 }).map((_, i) => `/images/${i + 1}.jpg`);
-
   // ✅ state สำหรับเก็บภาพที่คลิก
   const [selected, setSelected] = useState(null);
 
@@ -20,9 +31,13 @@ export default function BirthdayLock() {
             <figure
               className="bday-card"
               key={i}
-              onClick={() => setSelected(src)} // 👈 คลิกเปิดภาพ
+              onClick={() => setSelected(src)}
+              title="แตะเพื่อดูภาพขยาย"
             >
-              <img src={src} alt={`memory-${i + 1}`} />
+              <img src={src} alt={`memory-${i + 1}`} loading="lazy" />
+              <div className="bday-card-overlay">
+                <span>🔍 ดูรูป</span>
+              </div>
             </figure>
           ))}
         </div>
@@ -31,7 +46,7 @@ export default function BirthdayLock() {
       {/* ขวา: keypad */}
       <div className="right">
         <div className="title">🎂 Birthday Lock</div>
-        <div className="subtitle">วันนี้วันอะไรน้าา</div>
+        <div className="subtitle">วันนี้วันอะไรน้าา 💖</div>
         <Keypad
           expected={BIRTHDAY_PIN}
           length={4}
@@ -46,7 +61,17 @@ export default function BirthdayLock() {
       {/* ✅ Lightbox ภาพเต็มจอ */}
       {selected && (
         <div className="lightbox" onClick={() => setSelected(null)}>
-          <img src={selected} alt="full-view" className="lightbox-img" />
+          <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
+            <button
+              type="button"
+              className="lightbox-close"
+              onClick={() => setSelected(null)}
+              aria-label="Close"
+            >
+              ✕
+            </button>
+            <img src={selected} alt="full-view" className="lightbox-img" />
+          </div>
         </div>
       )}
     </div>

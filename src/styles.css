@@ -1,149 +1,748 @@
-/* --- ฟอนต์ระบบก็ได้ (ถ้ามีเว็บฟอนต์ให้เพิ่ม @import) --- */
-:root{
+/* ==========================================================================
+   ANNIVERSARY & BIRTHDAY APP - MODERN SWEET EDITION WITH DARK MODE
+   ========================================================================== */
+
+:root {
+  --theme: light;
+  --bg-gradient: linear-gradient(180deg, #ffffff 0%, #fff0f6 45%, #ffd9ea 100%);
+  --bg-card: rgba(255, 255, 255, 0.92);
   --pink: #FAD4E6;
+  --pink-light: #ffe6f2;
   --pink-deep: #D86DA1;
+  --pink-glow: #ff4fa2;
   --cream: #FFF3F7;
   --text: #2B2B2B;
+  --text-muted: #666666;
   --border: #F3C6D5;
-  --shadow: 0 12px 28px rgba(216,109,161,0.18);
-  --radius: 20px;
+  --shadow: 0 14px 34px rgba(216, 109, 161, 0.2);
+  --shadow-hover: 0 18px 40px rgba(255, 79, 162, 0.35);
+  --radius: 22px;
+  --key-bg: #ffffff;
+  --key-border: #f3c6d5;
+  --key-color: #2b2b2b;
 }
-* { box-sizing: border-box; }
+
+[data-theme="dark"] {
+  --theme: dark;
+  --bg-gradient: linear-gradient(180deg, #0e0714 0%, #190c22 45%, #251032 100%);
+  --bg-card: rgba(28, 15, 38, 0.9);
+  --pink: #ff66b2;
+  --pink-light: #32153d;
+  --pink-deep: #ff4fa2;
+  --pink-glow: #ff3385;
+  --cream: #1e0e29;
+  --text: #fcebf6;
+  --text-muted: #c7a7c2;
+  --border: #52274b;
+  --shadow: 0 16px 42px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 79, 162, 0.16);
+  --shadow-hover: 0 20px 48px rgba(0, 0, 0, 0.7), 0 0 28px rgba(255, 79, 162, 0.35);
+  --radius: 22px;
+  --key-bg: #271434;
+  --key-border: #462142;
+  --key-color: #fcebf6;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
-  margin: 0; font-family: system-ui, -apple-system, "Noto Sans Thai", sans-serif;
-  color: var(--text); background: linear-gradient(#fff, var(--cream));
+  margin: 0;
+  font-family: system-ui, -apple-system, "Noto Sans Thai", "Prompt", sans-serif;
+  color: var(--text);
+  background: var(--bg-gradient);
+  min-height: 100svh;
+  overflow-x: hidden;
+  transition: background 0.4s ease, color 0.3s ease;
 }
 
-/* --- layout พื้นฐาน --- */
-.split{
-  min-height: 100svh; display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px;
-  padding: 28px; align-items: center;
-}
-.left{ display:flex; align-items:center; justify-content:center; }
-.right{ max-width: 440px; margin-inline:auto; }
-.title{ font-size: 32px; font-weight: 700; margin-bottom: 6px; color:#222; }
-.subtitle{ color:#555; margin-bottom: 14px; }
-
-/* --- การ์ด PIN / คีย์แพด --- */
-.card{
-  background: #fff; border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow);
-}
-.pin-display{
-  display:flex; gap:10px; align-items:center; margin-bottom: 8px;
-  background: var(--cream); border:1px solid var(--border);
-  padding:10px 12px; border-radius: 14px;
-}
-.pin-display input{
-  border:none; background:transparent; font-size: 20px; letter-spacing: 6px; width:100%;
-}
-.lock{ opacity: .8; }
-.hint{ font-size: 12px; color:#777; margin: 6px 2px 12px; }
-
-.grid{
-  display:grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px;
-}
-.key{
-  padding: 14px 10px; border-radius: 14px; border:1px solid var(--border);
-  background: #fff; box-shadow: var(--shadow); font-size: 18px; cursor:pointer;
-}
-.key:active{ transform: translateY(1px); }
-
-/* --- ปุ่มหลัก --- */
-.btn{
-  background: var(--pink-deep); color:#fff; border:none; padding: 12px 18px;
-  border-radius: 999px; cursor:pointer; font-weight: 600; box-shadow: var(--shadow);
-  position: relative; z-index: 2;
-}
-.btn:hover{ opacity: .95; }
-.btn.wide{ width:100%; }
-
-/* --- hero หัวใจ --- */
-.hero{
-  position: relative; min-height: 100svh; display:grid; place-items:center; overflow:hidden;
-  background: linear-gradient(180deg, #ffeef7, #ffd9ea);
-}
-.heart-bg{
-  position:absolute; inset: 0; pointer-events: none;
-  background:
-    radial-gradient(ellipse 60% 50% at 50% 50%, rgba(255,105,180,.55), transparent 70%),
-    radial-gradient(ellipse 40% 30% at 45% 45%, rgba(255,255,255,.65), transparent 60%);
-  filter: blur(8px);
-}
-.hero-content{ position:relative; text-align:center; z-index: 1; }
-.hero h1{ font-size: clamp(32px, 6vw, 60px); margin:0 0 6px; text-shadow: 0 3px 0 rgba(255,255,255,.7); }
-.hero p { margin: 0 0 18px; font-size: 18px; }
-
-/* --- กลางจอ / การ์ดอวยพร --- */
-.center{
-  min-height: 100svh; display:grid; place-items:center; position:relative;
-  background: linear-gradient(#fff, #ffe7f0);
-  padding: 24px;
-}
-.wish-card{
-  max-width: 700px; background: #fff; border:1px solid var(--border);
-  border-radius: var(--radius); padding: 26px; box-shadow: var(--shadow);
-  text-align:center; position: relative; z-index: 2;
+/* ==========================================================================
+   🌙 THEME TOGGLE FLOATING BUTTON
+   ========================================================================== */
+.theme-toggle-wrapper {
+  position: fixed;
+  top: 16px;
+  right: 18px;
+  z-index: 9999;
 }
 
-/* เอฟเฟกต์หัวใจลอย - ปิดการคลิกบังปุ่ม */
-.floating-hearts{
+.theme-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-card);
+  color: var(--text);
+  border: 1.5px solid var(--border);
+  padding: 8px 16px;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  user-select: none;
+}
+
+.theme-toggle-btn.icon-only {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 50%;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.theme-toggle-btn:hover {
+  transform: translateY(-2px) scale(1.04);
+  border-color: var(--pink-deep);
+  box-shadow: var(--shadow-hover);
+}
+
+.theme-toggle-btn:active {
+  transform: translateY(0) scale(0.96);
+}
+
+.theme-icon {
+  font-size: 15px;
+  transition: transform 0.4s ease;
+}
+
+.theme-toggle-btn:hover .theme-icon {
+  transform: rotate(25deg) scale(1.2);
+}
+
+@media (max-width: 600px) {
+  .theme-toggle-wrapper {
+    top: 12px;
+    right: 12px;
+  }
+  .theme-toggle-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
+
+/* ==========================================================================
+   BUTTONS & ANIMATIONS
+   ========================================================================== */
+.btn {
+  background: linear-gradient(135deg, #ff4fa2, #e02476);
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  box-shadow: 0 8px 24px rgba(255, 79, 162, 0.32);
+  position: relative;
+  z-index: 2;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 15px;
+}
+
+.btn:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 12px 28px rgba(255, 79, 162, 0.5);
+}
+
+.btn:active {
+  transform: translateY(1px) scale(0.97);
+}
+
+.btn.wide {
+  width: 100%;
+}
+
+.btn-celebrate {
+  background: linear-gradient(135deg, #ff3385, #d81b60);
+  font-size: 16px;
+  padding: 14px 30px;
+  box-shadow: 0 10px 28px rgba(216, 27, 96, 0.38);
+}
+
+.btn-celebrate:hover {
+  box-shadow: 0 14px 36px rgba(216, 27, 96, 0.55);
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   HERO PAGES (BirthdayStart & AnniversaryStart)
+   ========================================================================== */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: var(--bg-gradient);
+  padding: 24px 16px;
+}
+
+.hero-content {
+  position: relative;
+  text-align: center;
+  z-index: 2;
+  max-width: 540px;
+  animation: fadeInUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.hero-badge {
+  display: inline-block;
+  background: var(--bg-card);
+  color: var(--pink-deep);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 6px 16px;
+  border-radius: 20px;
+  border: 1.5px solid var(--border);
+  box-shadow: 0 6px 18px rgba(216, 109, 161, 0.18);
+  margin-bottom: 14px;
+}
+
+.hero h1 {
+  font-size: clamp(30px, 6.5vw, 52px);
+  margin: 0 0 10px;
+  font-weight: 800;
+  color: #ffffff;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.45), 0 0 24px rgba(255, 79, 162, 0.55);
+  line-height: 1.2;
+}
+
+.hero p {
+  margin: 0 0 24px;
+  font-size: clamp(15px, 3.8vw, 18px);
+  color: #fff0f6;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.55);
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+/* ==== BIG HEART (ชัด + เคลื่อนไหว สไตล์ต้นฉบับดั้งเดิม) ==== */
+.big-heart {
   position: absolute;
   inset: 0;
-  pointer-events: none; /* ✅ ปิดการคลิกทับ */
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  z-index: 0;
+  /* พื้นหลังระเรื่อรอบหัวใจ เพื่อดึงตาไปที่กลาง */
+  background:
+    radial-gradient(ellipse 70% 45% at 50% 55%, rgba(255, 155, 195, 0.28), transparent 60%),
+    radial-gradient(ellipse 80% 60% at 50% 60%, rgba(255, 175, 205, 0.22), transparent 65%);
+  animation: heartFloat 10s ease-in-out infinite;
+}
+
+.heart-shape {
+  --size: var(--heart-size, clamp(340px, 80vmin, 760px));
+  width: var(--size);
+  height: calc(var(--size) * 0.9);
+  position: relative;
+  transform: rotate(-45deg) scale(1);
+  border-radius: 24px;
+  background: radial-gradient(120% 120% at 70% 20%, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0) 35%),
+              linear-gradient(180deg, #ffc0da, var(--heart-tint, #ff6fae));
+  box-shadow:
+    0 25px 60px rgba(255, 70, 150, 0.35),
+    inset -20px -18px 40px rgba(255, 70, 150, 0.35),
+    inset 0 0 60px rgba(255, 255, 255, 0.25);
+  animation: heartBeat 2.6s ease-in-out infinite;
+  filter: saturate(105%);
+}
+
+/* ปุ่มบนหัวใจ (semi-gloss) */
+.heart-shape::before,
+.heart-shape::after {
+  content: "";
+  position: absolute;
+  width: calc(var(--size) * 0.9);
+  height: calc(var(--size) * 0.9);
+  border-radius: 50%;
+  background: inherit;
+}
+.heart-shape::before {
+  top: calc(var(--size) * -0.45);
+  left: 0;
+}
+.heart-shape::after {
+  left: calc(var(--size) * 0.45);
+  top: 0;
+}
+
+/* เงาวิบวับเล็ก ๆ เดินผ่านหัวใจ */
+.heart-shine {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+
+.heart-shine::after {
+  content: "";
+  width: calc(var(--heart-size, 72vmin) * 1.1);
+  height: 30%;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 40% 50%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0) 55%),
+    radial-gradient(circle at 70% 60%, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0) 60%);
+  transform: translateY(-10%) rotate(-8deg);
+  filter: blur(8px);
+  opacity: 0.55;
+  animation: shineSweep 6s ease-in-out infinite;
+}
+
+/* เคลื่อนไหว */
+@keyframes heartBeat {
+  0% { transform: rotate(-45deg) scale(0.97); }
+  25% { transform: rotate(-45deg) scale(1.00); }
+  60% { transform: rotate(-45deg) scale(0.985); }
+  100% { transform: rotate(-45deg) scale(0.97); }
+}
+
+@keyframes shineSweep {
+  0% { transform: translateY(-14%) rotate(-8deg); opacity: 0.45; }
+  50% { transform: translateY(-6%) rotate(-8deg); opacity: 0.7; }
+  100% { transform: translateY(-14%) rotate(-8deg); opacity: 0.45; }
+}
+
+@keyframes heartFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+/* ==========================================================================
+   CARDS & KEYPAD
+   ========================================================================== */
+.card, .wish-card {
+  background: var(--bg-card);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition: all 0.3s ease;
+  animation: fadeInUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.pin-display {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 8px;
+  background: var(--cream);
+  border: 1.5px solid var(--border);
+  padding: 12px 16px;
+  border-radius: 16px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.pin-display input {
+  border: none;
+  background: transparent;
+  font-size: 22px;
+  letter-spacing: 8px;
+  width: 100%;
+  color: var(--pink-deep);
+  font-weight: 700;
+  outline: none;
+  text-align: center;
+}
+
+.lock {
+  font-size: 18px;
+  opacity: 0.8;
+}
+
+.hint {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 6px 2px 14px;
+  text-align: center;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.key {
+  padding: 14px 10px;
+  border-radius: 16px;
+  border: 1.5px solid var(--key-border);
+  background: var(--key-bg);
+  color: var(--key-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  font-size: 19px;
+  font-weight: 700;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.key:hover {
+  transform: translateY(-2px);
+  border-color: var(--pink-deep);
+  box-shadow: 0 8px 18px rgba(255, 79, 162, 0.25);
+  background: var(--pink-light);
+}
+
+.key:active {
+  transform: translateY(1px) scale(0.96);
+}
+
+.shake {
+  animation: shakeKeypad 0.45s ease-in-out;
+}
+
+@keyframes shakeKeypad {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-8px); }
+  40%, 80% { transform: translateX(8px); }
+}
+
+/* ==========================================================================
+   LAYOUT: SPLIT (BirthdayLock & AnniversaryLock)
+   ========================================================================== */
+.split {
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 28px;
+  padding: 32px 24px;
+  align-items: center;
+  background: var(--bg-gradient);
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.right {
+  max-width: 440px;
+  width: 100%;
+  margin-inline: auto;
+}
+
+.title {
+  font-size: clamp(26px, 5vw, 34px);
+  font-weight: 800;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+
+.subtitle {
+  color: var(--text-muted);
+  margin-bottom: 16px;
+  font-size: 15px;
+}
+
+/* Sticky keypad ONLY on desktop screens (min-width: 901px) */
+@media (min-width: 901px) {
+  .birthday-page.split {
+    align-items: start;
+  }
+  .birthday-page .right {
+    position: sticky;
+    top: 80px;
+  }
+}
+
+/* On mobile screens (max-width: 900px), keypad scrolls naturally with the page */
+@media (max-width: 900px) {
+  .split {
+    grid-template-columns: 1fr;
+    padding: 20px 16px;
+    gap: 24px;
+  }
+  .left { order: 2; }
+  .right {
+    order: 1;
+    position: static !important;
+  }
+  .birthday-page.split {
+    align-items: normal;
+  }
+  .birthday-page .right {
+    position: static !important;
+    top: auto !important;
+  }
+}
+
+/* ==========================================================================
+   BIRTHDAY LOCK (BirthdayLock.jsx)
+   ========================================================================== */
+.birthday-page .birthday-grid {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 16px !important;
+  max-width: 520px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  padding: 12px 4px !important;
+}
+
+.birthday-page .bday-card {
+  position: relative;
+  background: var(--bg-card);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  padding: 8px;
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+  border: 1px solid var(--border);
+}
+
+.birthday-page .bday-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--pink-glow);
+}
+
+.birthday-page .bday-card img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: 12px;
+  display: block;
+}
+
+.bday-card-overlay {
+  position: absolute;
+  inset: 8px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.birthday-page .bday-card:hover .bday-card-overlay {
+  opacity: 1;
+}
+
+/* Lightbox Modal */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: grid;
+  place-items: center;
+  z-index: 10000;
+  padding: 20px;
+  animation: fadeIn 0.25s ease-out;
+}
+
+.lightbox-content {
+  position: relative;
+  max-width: min(92vw, 640px);
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: -42px;
+  right: 0;
+  background: rgba(255, 255, 255, 0.25);
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.4);
+  transform: scale(1.1);
+}
+
+.lightbox-img {
+  width: 100%;
+  height: auto;
+  max-height: 80vh;
+  object-fit: contain;
+  border-radius: 16px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 79, 162, 0.3);
+  animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ==========================================================================
+   ANNIVERSARY LOCK (AnniversaryLock.jsx)
+   ========================================================================== */
+.photo-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  padding: 16px;
+  flex-wrap: nowrap;
+}
+
+.side-photo {
+  width: clamp(140px, 24vw, 200px);
+  height: clamp(220px, 36vw, 300px);
+  object-fit: cover;
+  object-position: center 40%;
+  border-radius: 20px;
+  border: 2px solid var(--border);
+  box-shadow: var(--shadow);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+}
+
+.side-photo:hover {
+  transform: translateY(-4px) scale(1.04);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--pink-glow);
+}
+
+.heart-center {
+  width: 110px;
+  height: 110px;
+  animation: pulseHeart 1.8s ease-in-out infinite;
+  filter: drop-shadow(0 0 16px rgba(255, 79, 162, 0.65));
+}
+
+@keyframes pulseHeart {
+  0%, 100% { transform: scale(1); opacity: 0.92; }
+  50% { transform: scale(1.18); opacity: 1; }
+}
+
+@media (max-width: 768px) {
+  .photo-center {
+    flex-direction: row;
+    gap: 16px;
+  }
+  .side-photo {
+    width: clamp(120px, 38vw, 170px);
+    height: clamp(180px, 52vw, 240px);
+  }
+  .heart-center {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+/* ==========================================================================
+   WISHES PAGE (Wishes.jsx)
+   ========================================================================== */
+.center {
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  position: relative;
+  background: var(--bg-gradient);
+  padding: 24px 16px;
+}
+
+.wish-birthday-card {
+  max-width: 520px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  padding: 32px 24px;
+}
+
+.cake-icon-wrap {
+  font-size: 42px;
+  margin-bottom: 8px;
+  animation: floatCake 3s ease-in-out infinite;
+}
+
+@keyframes floatCake {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.wish-birthday-card h2 {
+  font-size: clamp(22px, 5vw, 28px);
+  margin: 0 0 16px;
+  color: var(--text);
+  font-weight: 800;
+}
+
+/* Typing text */
+.typing {
+  text-align: center;
+  margin: 16px 0;
+}
+
+.typing-line {
+  margin: 10px 0;
+  font-size: clamp(15px, 3.8vw, 18px);
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.caret {
+  display: inline-block;
+  width: 8px;
+  height: 1.1em;
+  vertical-align: -0.15em;
+  border-left: 2.5px solid var(--pink-deep);
+  margin-left: 3px;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* Animated Hearts Background Layer */
+.hearts-layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
   z-index: 0;
 }
-.floating-hearts::before{
-  content:"";
-  position:absolute; inset:0;
-  background:
-    radial-gradient(circle at 20% 30%, rgba(255,105,180,.25), transparent 40%),
-    radial-gradient(circle at 80% 60%, rgba(255,105,180,.20), transparent 45%),
-    radial-gradient(circle at 60% 20%, rgba(255,182,193,.18), transparent 50%);
-  animation: float 8s linear infinite alternate;
-  pointer-events: none; /* ✅ เพิ่มตรงนี้ */
-}
-@keyframes float{
-  from{ transform: translateY(0px); }
-  to{ transform: translateY(-16px); }
-}
 
-/* --- โพลารอยด์ซ้าย --- */
-.polaroids{ display:grid; grid-template-columns: repeat(3, minmax(120px, 1fr)); gap:12px; padding: 10px; }
-.polaroid{
-  background:#fff; padding:8px 8px 16px; border: 1px solid #e9e9e9; border-radius:10px;
-  box-shadow: 0 8px 18px rgba(0,0,0,.06);
-}
-.polaroid img{ width:100%; height: 160px; object-fit: cover; border-radius:6px; display:block; }
-
-/* --- memories --- */
-.memories header{ text-align:center; padding: 22px 10px; }
-.gallery{
-  columns: 1; column-gap: 14px; padding: 0 16px 40px;
-}
-@media(min-width: 720px){ .gallery{ columns: 2; } }
-@media(min-width: 1024px){ .gallery{ columns: 3; } }
-.card{
-  break-inside: avoid; margin-bottom: 14px;
-}
-.polaroid-plain img{ width:100%; border-radius: 14px; display:block; }
-.polaroid-plain figcaption{ font-size: 13px; color:#666; margin-top: 6px; }
-
-.mt{ margin-top: 18px; }
-
-/* --- responsive --- */
-@media(max-width: 900px){
-  .split{ grid-template-columns: 1fr; padding: 18px; }
-  .left{ order:2; }
-  .right{ order:1; }
-}
-
-/* === Hearts layer (พื้นหลังหัวใจเคลื่อนไหว) === */
-.hearts-layer {
-  position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0;
-}
 .heart {
-  position: absolute; bottom: -40px; left: 50%;
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
   background: radial-gradient(circle at 30% 30%, #ff7db8, #ff4fa2 60%, transparent 61%),
               radial-gradient(circle at 70% 30%, #ff7db8, #ff4fa2 60%, transparent 61%);
   transform: translate(-50%, 0) rotate(45deg);
@@ -152,501 +751,680 @@ body {
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   filter: blur(0.2px);
-  opacity: .2;
 }
+
 @keyframes rise {
   from { transform: translateY(0) rotate(45deg); }
   to   { transform: translateY(-120vh) rotate(45deg); }
 }
 
-/* === ไล่ประกายเบา ๆ ในหน้าล็อก === */
-.sparkly { position: relative; overflow: hidden; }
-.sparkly::after{
-  content:""; position:absolute; inset:-20% -20% auto -20%; height: 50%;
-  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.5), transparent 40%),
-              radial-gradient(circle at 70% 60%, rgba(255,255,255,.35), transparent 45%);
-  animation: shimmer 5s ease-in-out infinite;
-  pointer-events: none;
-}
-@keyframes shimmer {
-  0% { transform: translateY(0); opacity:.25; }
-  50% { transform: translateY(10px); opacity:.1; }
-  100% { transform: translateY(0); opacity:.25; }
+/* ==========================================================================
+   MEMORIES PUZZLE GAME (Memories.jsx)
+   ========================================================================== */
+.memory-game-page {
+  min-height: 100svh;
+  padding: 24px 16px;
+  background: var(--bg-gradient);
 }
 
-/* === ปุ่ม/การ์ดไม่ถูกบล็อกคลิก (เผื่อมีเอฟเฟกต์ทับ) === */
-.wish-card, .btn { position: relative; z-index: 2; }
-.hidden { display: none; }
-
-/* === เขย่าการ์ดตอนรหัสผิด === */
-@keyframes shake-kf {
-  0%{ transform: translateX(0) }
-  20%{ transform: translateX(-6px) }
-  40%{ transform: translateX(6px) }
-  60%{ transform: translateX(-4px) }
-  80%{ transform: translateX(4px) }
-  100%{ transform: translateX(0) }
-}
-.card.shake { animation: shake-kf .5s ease; }
-
-/* === พิมพ์พร้อมเคอร์เซอร์ === */
-.typing-line { margin: 8px 0; font-size: 18px; }
-.caret {
-  display:inline-block; width:10px; height: 1.1em; vertical-align: -0.2em;
-  border-left: 2px solid #D86DA1; margin-left: 2px; animation: blink 1s step-end infinite;
-}
-@keyframes blink { 50% { opacity: 0; } }
-
-/* === วิดีโอในหน้า ThankYou === */
-/* === วิดีโอในหน้า ThankYou (แนวตั้ง + เล่นวน) === */
-/* === วิดีโอหน้า ThankYou: ขนาดพอดีการ์ด เหมือนภาพตัวอย่าง === */
-.wish-card {
-  max-width: 460px;           /* การ์ดกว้างสุด */
-  width: calc(100vw - 48px);  /* มีระยะขอบสวย ๆ บนมือถือ */
-  margin: 0 auto;
-}
-
-.video-stage { 
-  background: linear-gradient(#fff, #ffe7f0);
-  display: grid; place-items: center;
-}
-
-.video-wrap {
-  margin: 14px auto 0;
-  border-radius: 18px;
-  overflow: hidden;
-  border: 1px solid #F3C6D5;
-  box-shadow: 0 12px 28px rgba(216,109,161,.18);
-  background: #000;
-  display: grid; place-items: center;
-}
-
-/* ขนาด “ตามรูป” — แนวตั้ง 9:16 กว้างพอดีการ์ด */
-.video-wrap.portrait {
-  width: clamp(300px, calc(100vw - 88px), 360px);  /* ≈ 360px ที่จอ iPhone 14 PM ในรูป */
-  aspect-ratio: 9 / 16;
-}
-
-/* วิดีโอแนวตั้งเต็มกรอบและโค้งมุม */
-.video.vertical {
+.puzzle-card {
+  max-width: 480px;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  border-radius: inherit;
-}
-
-/* เผื่อมีวิดีโอแนวนอนที่หน้าอื่น */
-.video { width: min(820px, 92vw); height: auto; display:block; }
-
-
-
-/* ==== BIG HEART (ชัด + เคลื่อนไหว) ==== */
-.big-heart{
-  position:absolute; inset:0; display:grid; place-items:center; pointer-events:none; z-index:0;
-  /* พื้นหลังระเรื่อรอบหัวใจ เพื่อดึงตาไปที่กลาง */
-  background:
-    radial-gradient(ellipse 70% 45% at 50% 55%, rgba(255, 155, 195, .28), transparent 60%),
-    radial-gradient(ellipse 80% 60% at 50% 60%, rgba(255, 175, 205, .22), transparent 65%);
-  animation: heartFloat 10s ease-in-out infinite;
-}
-
-.heart-shape{
-  --size: var(--heart-size, 72vmin);
-  width: var(--size);
-  height: calc(var(--size) * 0.9);
+  margin: 0 auto;
   position: relative;
-  transform: rotate(-45deg) scale(1);
-  border-radius: 24px;
-  background: radial-gradient(120% 120% at 70% 20%, rgba(255,255,255,.85), rgba(255,255,255,0) 35%),
-              linear-gradient(180deg, #ffc0da, var(--heart-tint, #ff6fae));
-  box-shadow:
-    0 25px 60px rgba(255, 70, 150, .35),
-    inset -20px -18px 40px rgba(255, 70, 150, .35),
-    inset 0 0 60px rgba(255, 255, 255, .25);
-  animation: heartBeat 2.6s ease-in-out infinite;
-  filter: saturate(105%);
+  z-index: 2;
+  box-shadow: var(--shadow);
+  padding: 28px 20px;
+  text-align: center;
 }
-/* ปุ่มบนหัวใจ (semi-gloss) */
-.heart-shape::before,
-.heart-shape::after{
-  content:"";
-  position:absolute;
-  width: calc(var(--size) * 0.9);
-  height: calc(var(--size) * 0.9);
+
+.puzzle-header h2 {
+  margin: 0 0 6px;
+  font-size: 24px;
+  color: var(--text);
+  font-weight: 800;
+}
+
+.puzzle-desc {
+  margin: 0 0 14px;
+  color: var(--text-muted);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.puzzle-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: var(--cream);
+  border: 1px solid var(--border);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  color: var(--text);
+  margin-bottom: 14px;
+}
+
+.dot-sep {
+  opacity: 0.4;
+}
+
+.puzzle-controls {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.ctrl-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--text);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  transition: all 0.2s ease;
+}
+
+.ctrl-btn:hover {
+  background: var(--pink-light);
+  transform: translateY(-1px);
+  border-color: var(--pink-deep);
+}
+
+.ctrl-btn.hint {
+  color: #d946ef;
+  border-color: #f0abfc;
+  background: rgba(253, 244, 255, 0.8);
+}
+
+.ctrl-btn.hint:hover {
+  background: #fae8ff;
+}
+
+/* กระดานภาพ 2x2 สัดส่วนตามภาพ ~3:4 */
+.puzzle-board {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 6px;
+  width: 100%;
+  max-width: 340px;
+  aspect-ratio: 3 / 4;
+  margin: 0 auto 16px;
+  padding: 6px;
+  background: var(--bg-card);
+  border-radius: 18px;
+  border: 2px solid var(--border);
+  box-shadow: var(--shadow);
+  transition: gap 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+  touch-action: none;
+}
+
+.puzzle-board.solved {
+  gap: 0px;
+  padding: 0px;
+  border-color: #10b981;
+  box-shadow: 0 0 26px rgba(16, 185, 129, 0.5);
+  overflow: hidden;
+}
+
+.puzzle-tile {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid transparent;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s, border-color 0.2s;
+  user-select: none;
+  touch-action: none;
+}
+
+.puzzle-board.solved .puzzle-tile {
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+  cursor: default;
+}
+
+.puzzle-tile:hover:not(.puzzle-board.solved .puzzle-tile) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(255, 79, 162, 0.3);
+}
+
+.puzzle-tile.selected {
+  transform: scale(0.94);
+  border-color: #ff4fa2;
+  box-shadow: 0 0 18px rgba(255, 79, 162, 0.7);
+  z-index: 5;
+  animation: pulseBorder 1.2s infinite alternate ease-in-out;
+}
+
+@keyframes pulseBorder {
+  from { box-shadow: 0 0 8px rgba(255, 79, 162, 0.4); }
+  to { box-shadow: 0 0 18px rgba(255, 79, 162, 0.8); }
+}
+
+.tile-badge {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  background: rgba(16, 185, 129, 0.9);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  background: inherit;
-}
-.heart-shape::before{ top: calc(var(--size) * -0.45); left: 0; }
-.heart-shape::after{ left: calc(var(--size) * 0.45); top: 0; }
-
-/* เงาวิบวับเล็ก ๆ เดินผ่านหัวใจ */
-.heart-shine{
-  position:absolute; inset:0; display:grid; place-items:center;
-}
-.heart-shine::after{
-  content:"";
-  width: calc(var(--heart-size, 72vmin) * 1.1);
-  height: 30%;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 40% 50%, rgba(255,255,255,.9), rgba(255,255,255,0) 55%),
-    radial-gradient(circle at 70% 60%, rgba(255,255,255,.7), rgba(255,255,255,0) 60%);
-  transform: translateY(-10%) rotate(-8deg);
-  filter: blur(8px);
-  opacity: .55;
-  animation: shineSweep 6s ease-in-out infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-/* เคลื่อนไหว */
-@keyframes heartBeat{
-  0%{ transform: rotate(-45deg) scale(0.97); }
-  25%{ transform: rotate(-45deg) scale(1.00); }
-  60%{ transform: rotate(-45deg) scale(0.985); }
-  100%{ transform: rotate(-45deg) scale(0.97); }
-}
-@keyframes shineSweep{
-  0%{ transform: translateY(-14%) rotate(-8deg); opacity:.45; }
-  50%{ transform: translateY(-6%) rotate(-8deg); opacity:.7; }
-  100%{ transform: translateY(-14%) rotate(-8deg); opacity:.45; }
-}
-@keyframes heartFloat{
-  0%,100%{ transform: translateY(0px); }
-  50%{ transform: translateY(-8px); }
+.win-banner {
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--pink-light);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* ให้ข้อความ/ปุ่มอยู่เหนือหัวใจ */
-.hero .hero-content{ position:relative; z-index: 2; }
+.win-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: #d81b60;
+  margin-bottom: 6px;
+}
 
+.win-text {
+  font-size: 14px;
+  color: var(--text);
+  margin: 0 0 14px;
+  line-height: 1.4;
+}
 
-/* ===== LoveMission: Sky + Clouds + Milestones (2024 -> 2025) ===== */
-/* ======================================================
-   💖 Love Mission Scene (Responsive + Pink Edition)
-   ====================================================== */
+.preview-container {
+  background: var(--bg-card);
+  border-radius: 20px;
+  padding: 20px;
+  max-width: 380px;
+  width: 90%;
+  text-align: center;
+  box-shadow: var(--shadow);
+  border: 1.5px solid var(--border);
+  animation: popIn 0.25s ease-out;
+}
 
-/* ฉากหลัก */
-.mission-stage{
+.preview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.preview-img {
+  width: 100%;
+  max-height: 55vh;
+  object-fit: contain;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+}
+
+/* ==========================================================================
+   LOVE MISSION (LoveMission.jsx)
+   ========================================================================== */
+.mission-stage {
   position: relative;
   min-height: 100svh;
   overflow: hidden;
-  background: linear-gradient(180deg, #ffeef7 0%, #ffd9ea 100%);
-  perspective: 900px;
-  padding:
-    max(0px, env(safe-area-inset-top))
-    max(0px, env(safe-area-inset-right))
-    max(0px, env(safe-area-inset-bottom))
-    max(0px, env(safe-area-inset-left));
+  background: radial-gradient(ellipse at 50% 20%, #ffe6f2 0%, #ffd0e6 45%, #ffb8d7 100%);
 }
 
-/* กล้องโฟกัส */
-.camera-overlay{
-  position:absolute; inset:0; pointer-events:none; z-index:6;
-  background: radial-gradient(80% 70% at 50% 50%, rgba(0,0,0,0) 60%, rgba(0,0,0,.25) 100%);
-  animation: autofocusLM 9s ease-in-out forwards, breatheLM 8s ease-in-out infinite;
-}
-@keyframes autofocusLM{
-  0%{ filter: blur(10px) brightness(1.05); }
-  50%{ filter: blur(3px) brightness(1.02); }
-  100%{ filter: blur(0) brightness(1); }
-}
-@keyframes breatheLM{ 0%,100%{transform:translateZ(0)} 50%{transform:translateZ(2px)} }
-
-/* ท้องฟ้า + เมฆสมจริง */
-.sky{ position:absolute; inset:0; z-index:0; background: linear-gradient(180deg, #ffeaf3 0, #ffd7ea 40%, #ffd0e6 100%); }
-.clouds{ position:absolute; inset:0; overflow:hidden; }
-.cloud{
-  --i: 0;
-  position:absolute;
-  top: calc(10% + (var(--i) * 7%));
-  left: -20%;
-  width: clamp(120px, 22vw, 320px);
-  height: clamp(60px, 10vw, 140px);
-  background: #fff;
-  border-radius: 60px;
-  filter: blur(0.5px);
-  opacity: .85;
-  box-shadow:
-    40px 0 0 10px #fff,
-    80px -12px 0 6px #fff,
-    120px 6px 0 8px #fff;
-  animation: cloudDrift calc(25s + (var(--i) * 1.2s)) linear infinite;
-}
-.cloud::before,
-.cloud::after{
-  content:""; position:absolute; background:#fff; border-radius:50%;
-}
-.cloud::before{ width:50%; height:80%; top:-30%; left:10%; }
-.cloud::after{ width:40%; height:60%; top:-20%; right:12%; }
-@keyframes cloudDrift{
-  from{ transform: translateX(0); }
-  to  { transform: translateX(140vw); }
+.space {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
 }
 
-/* ดาวระยิบเบา ๆ */
-.space{ position:absolute; inset:0; z-index:1; pointer-events:none; }
-.stars, .stars::before{
-  position:absolute; content:""; inset:-10%;
+.stars, .stars::before {
+  position: absolute;
+  content: "";
+  inset: -10%;
   background-image:
     radial-gradient(#ffffff 1.2px, transparent 1.2px),
     radial-gradient(#ffd1e5 1px, transparent 1px);
   background-size: 3px 3px, 2px 2px;
   background-position: 0 0, 25px 35px;
   animation: starDrift 40s linear infinite;
-  opacity:.35;
-}
-.stars.slower{ animation-duration: 55s; opacity:.25; }
-@keyframes starDrift{ from{ transform: translateY(0); } to{ transform: translateY(-12%); } }
-
-/* ดาวหัวใจปลายทาง */
-.heart-planet{
-  position:absolute; right: 6%; top: 8%;
-  width:min(40vmin, 360px); aspect-ratio:1/1;
-  transform: translateZ(-120px) scale(.9);
-  filter: blur(4px) saturate(1.05);
-  z-index:2;
-}
-.heart-planet .core{
-  width:100%; height:100%;
-  background:
-    radial-gradient(circle at 45% 32%, rgba(255,255,255,.75), rgba(255,255,255,0) 40%),
-    linear-gradient(180deg, #ff9ec6, #ff5aa7 60%, #ff348d 100%);
-  clip-path:path("M50 10C65 -5, 95 5, 95 30 C95 55, 50 85, 50 95 C50 85, 5 55, 5 30 C5 5, 35 -5, 50 10 Z");
-  filter: drop-shadow(0 40px 60px rgba(255,80,150,.35));
-}
-.heart-planet .glow{
-  position:absolute; inset:-10%; border-radius:50%;
-  background: radial-gradient(circle, rgba(255,160,200,.35), transparent 60%);
-  filter: blur(12px);
+  opacity: 0.4;
 }
 
-/* จุด checkpoint และธง */
-.milestone{
-  position:absolute; z-index:4; pointer-events:none;
-  display:grid; place-items:center;
-}
-.milestone .badge{
-  background:#fff; color:#333; font-weight:700;
-  border:1px solid #f2c7d6; border-radius:999px; padding:6px 12px;
-  box-shadow: 0 10px 24px rgba(216,109,161,.22);
-}
-.milestone .ping{
-  position:absolute; width:120px; height:120px; border-radius:50%;
-  background: radial-gradient(circle, rgba(255,105,180,.25), transparent 60%);
-  animation: ping 2.6s ease-out infinite;
-}
-.milestone .ping.strong{ animation-duration: 2s; opacity:.9; }
-@keyframes ping{ from{ transform:scale(.8); opacity:.45;} to{ transform:scale(1.2); opacity:0;} }
-
-.y2024{ left: 42%; top: 46%; }
-.y2025{ right: 10%; top: 12%; }
-.flag{ position:relative; width:90px; height:70px; }
-.flag .pole{
-  position:absolute; left:0; bottom:0; width:4px; height:70px; background:#7a5b5b; border-radius:2px;
-  box-shadow: 0 0 0 1px #6b4f4f inset;
-}
-.flag .cloth{
-  position:absolute; left:4px; top:6px;
-  width:76px; height:36px; line-height:36px; text-align:center; font-weight:800;
-  color:#fff; background: linear-gradient(180deg, #ff4fa2, #ff337f);
-  border-radius:6px 10px 10px 6px;
-  filter: drop-shadow(0 6px 12px rgba(255,60,130,.35));
-  animation: wave 1.6s ease-in-out infinite;
-}
-@keyframes wave{
-  0%,100%{ transform: perspective(300px) rotateY(-12deg); }
-  50%   { transform: perspective(300px) rotateY(6deg); }
+.stars.slower {
+  animation-duration: 55s;
+  opacity: 0.25;
 }
 
-/* -------------------------------------------------------
-   🚀 ROCKET + PATH
-   ------------------------------------------------------- */
-
-.rocket-wrap{
-  position:absolute; left: 10%; bottom: -120px; z-index:5;
-  width:clamp(72px, 18vw, 120px); height:auto;
-  filter: drop-shadow(0 20px 40px rgba(255,80,150,.35));
-}
-.path-2025{ animation: takeoffPath 9s cubic-bezier(.22,.86,.27,.99) forwards; }
-.flame{ animation: flameLM .2s ease-in-out infinite alternate; transform-origin: 60px 140px; }
-@keyframes flameLM{
-  from{ transform: scaleY(1) translateY(0); opacity:.95; }
-  to  { transform: scaleY(1.05) translateY(2px); opacity:.85; }
+@keyframes starDrift {
+  from { transform: translateY(0); }
+  to { transform: translateY(-12%); }
 }
 
-/* เส้นทางโค้ง */
-@keyframes takeoffPath{
-  0%   { transform: translate(0, 0) rotate(-2deg) scale(1); }
-  30%  { transform: translate(28vw, -26vh) rotate(-10deg) scale(1.06); }
-  48%  { transform: translate(36vw, -32vh) rotate(-4deg) scale(1.08); }
-  60%  { transform: translate(50vw, -40vh) rotate(2deg) scale(1.12); }
-  80%  { transform: translate(68vw, -52vh) rotate(4deg) scale(1.16); }
-  100% { transform: translate(76vw, -64vh) rotate(0deg) scale(1.2); }
+.mission-hud {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(92vw, 440px);
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: 30px;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 10;
+  box-shadow: var(--shadow);
 }
 
-/* -------------------------------------------------------
-   💬 Toast & Modal
-   ------------------------------------------------------- */
-
-.toast{
-  position: absolute; left: 50%; top: 58%; transform: translate(-50%,-50%);
-  background:#fff; padding:10px 14px; border-radius:999px; border:1px solid #f2c7d6;
-  box-shadow: 0 18px 40px rgba(216,109,161,.24); z-index:7;
-  animation: toastIn .5s ease forwards;
-}
-.toast.checkpoint{ top: 58%; }
-@keyframes toastIn{ from{ opacity:0; transform: translate(-50%,-40%) scale(.96);} to{opacity:1; transform: translate(-50%,-50%) scale(1);} }
-
-.modal-backdrop{
-  position: absolute; inset:0; background: rgba(0,0,0,.25);
-  display:grid; place-items:center; z-index: 8; animation: fadeInLM .5s ease forwards;
-}
-.modal-card{
-  width: min(90vw, 520px);
-  background:#fff; border:1px solid #f2c7d6; border-radius: 20px;
-  box-shadow: 0 18px 48px rgba(216, 109, 161, .25);
-  text-align:center; padding: 24px 22px;
-}
-@keyframes fadeInLM{ from{ opacity:0 } to{ opacity:1 } }
-
-/* -------------------------------------------------------
-   📱 Responsive Design
-   ------------------------------------------------------- */
-
-@media (max-width: 768px){
-  .y2023 {left: 12%; bottom: 10%;  position: absolute; } 
-  .y2024{ left: 36%; top: 48%; }
-  .y2025{ right: 6%; top: 16%; }
-  .rocket-wrap{ left: 6%; bottom: -12vh; }
-  .flag{ transform: scale(.9); }
-  
-
-  .path-2025{ animation-name: takeoffPathMobile; }
-  @keyframes takeoffPathMobile {
-  0%   { transform: translate(0, 0) rotate(-2deg) scale(1); }
-  30%  { transform: translate(24vw, -20vh) rotate(-6deg) scale(1.05); }
-  55%  { transform: translate(38vw, -38vh) rotate(-2deg) scale(1.1); }
-  80%  { transform: translate(58vw, -60vh) rotate(2deg) scale(1.15); }
-  100% { transform: translate(74vw, -82vh) rotate(0deg) scale(1.2); }
+.hud-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
 }
 
-  .toast{ top: 64%; }
-  .modal-card{ width: min(92vw, 400px); }
-}
-
-/* มือถือเล็กพิเศษ */
-@media (max-width: 480px){
-  .rocket-wrap{ bottom: -10vh; }
-  .y2024{ left: 34%; top: 52%; }
-  .y2025{ right: 6%; top: 10%; }
-}
-
-/* จอเตี้ย */
-@media (max-height: 720px){
-  .rocket-wrap{ bottom: -10vh; }
-  .y2024{ top: 52%; }
-  .y2025{ top: 20%; }
-}
-
-/* ลดการเคลื่อนไหว */
-@media (prefers-reduced-motion: reduce){
-  .path-2025, .cloud, .stars, .camera-overlay, .flag, .flame{
-    animation: none !important;
-  }
-  .rocket-wrap{ transform: translate(50vw, -36vh) scale(1); }
-}
- /* anniversary lock */
- .photo-center{
-  display:flex; align-items:center; justify-content:center;
-  gap:40px; padding:24px; flex-wrap:nowrap;
-}
-.side-photo {
-  /* กำหนดให้ภาพขยาย/ย่ออัตโนมัติระหว่าง 140–240px ตามขนาดจอ */
-  width: clamp(140px, 24vw, 190px);
-  height: clamp(200px, 34vw, 270px);
-
-  object-fit: cover;
-  object-position: center top; /* โฟกัสที่หน้า */
-  border-radius: 18px;
-  box-shadow: 0 8px 20px rgba(255, 130, 180, 0.35);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.side-photo:hover {
-  transform: scale(1.04);
-  box-shadow: 0 10px 28px rgba(255, 100, 150, 0.45);
-}
-
-
-.heart-center{
-  width:120px; height:120px;
-  animation:pulseHeart 1.8s ease-in-out infinite;
-  filter:drop-shadow(0 0 14px rgba(255,100,160,.6));
-}
-@keyframes pulseHeart{0%,100%{transform:scale(1);opacity:.9}50%{transform:scale(1.15);opacity:1}}
-
-@media (max-width:768px){
-  .photo-center{ flex-direction:column; gap:20px; }
-  .side-photo{ width:160px; height:160px; }
-  .heart-center{ width:100px; height:100px; }
-}
- 
-
-/* memorise */
-/* แกลเลอรีภาพ */
-.gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 18px;
-  padding: 20px;
-}
-
-.card.polaroid-plain {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(255, 140, 170, 0.25);
+.hud-progress-bar {
+  flex: 1;
+  height: 8px;
+  background: var(--cream);
+  border-radius: 999px;
   overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.hud-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ff66b2, #ff1493);
+  border-radius: 999px;
+  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 8px rgba(255, 20, 147, 0.5);
+}
+
+.hud-skip-btn {
+  background: none;
+  border: none;
+  color: var(--pink-deep);
+  font-size: 12px;
+  font-weight: 700;
   cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 4px 6px;
+  white-space: nowrap;
 }
 
-.card.polaroid-plain:hover {
-  transform: scale(1.04);
-  box-shadow: 0 10px 25px rgba(255, 100, 150, 0.35);
-}
-
-.card.polaroid-plain img {
+.mission-orbit-svg {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  height: 240px;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.milestone {
+  position: absolute;
+  z-index: 4;
+  pointer-events: none;
+  display: grid;
+  place-items: center;
+}
+
+.y2023-new { left: 8%; bottom: 12%; }
+.y2024-new { left: 32%; bottom: 38%; }
+.y2025-new { left: 58%; top: 36%; }
+.y2026-new { right: 10%; top: 14%; }
+
+.milestone-badge {
+  background: var(--bg-card);
+  backdrop-filter: blur(8px);
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  padding: 6px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: var(--shadow);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.milestone.active .milestone-badge {
+  border-color: #ff1493;
+  box-shadow: 0 0 16px rgba(255, 20, 147, 0.45);
+  transform: scale(1.08);
+}
+
+.m-year {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--pink-deep);
+}
+
+.m-desc {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.flag-2026 {
+  background: linear-gradient(135deg, #ff1493, #ff66b2);
+  color: #fff;
+  font-weight: 800;
+  font-size: 15px;
+  padding: 8px 18px;
+  border-radius: 24px;
+  box-shadow: 0 6px 20px rgba(255, 20, 147, 0.5);
+  animation: pulseFlag 2s infinite alternate ease-in-out;
+}
+
+@keyframes pulseFlag {
+  from { transform: scale(1); }
+  to { transform: scale(1.08); }
+}
+
+.heart-planet-2026 {
+  position: absolute;
+  right: 6%;
+  top: 8%;
+  width: min(34vmin, 280px);
+  aspect-ratio: 1 / 1;
+  pointer-events: none;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.heart-planet-2026 .core {
+  width: 80%;
+  height: 80%;
+  background:
+    radial-gradient(circle at 40% 30%, rgba(255, 255, 255, 0.8), transparent 45%),
+    linear-gradient(180deg, #ff99cc, #ff3385 60%, #e6005c 100%);
+  clip-path: path("M50 10C65 -5, 95 5, 95 30 C95 55, 50 85, 50 95 C50 85, 5 55, 5 30 C5 5, 35 -5, 50 10 Z");
+  filter: drop-shadow(0 20px 35px rgba(255, 20, 147, 0.4));
+  animation: floatPlanet 6s ease-in-out infinite;
+}
+
+@keyframes floatPlanet {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-8px) scale(1.03); }
+}
+
+.heart-planet-2026 .glow {
+  position: absolute;
+  inset: -15%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 105, 180, 0.4), transparent 65%);
+  filter: blur(16px);
+}
+
+.planet-label {
+  position: absolute;
+  bottom: -6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #d81b60;
+  background: var(--bg-card);
+  backdrop-filter: blur(4px);
+  padding: 3px 10px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.rocket-wrap {
+  position: absolute;
+  left: 10%;
+  bottom: -120px;
+  z-index: 5;
+  width: clamp(72px, 18vw, 120px);
+  filter: drop-shadow(0 20px 40px rgba(255, 80, 150, 0.4));
+}
+
+.path-2026 {
+  animation: takeoffPath2026 10s cubic-bezier(0.25, 0.9, 0.35, 1) forwards;
+}
+
+@keyframes takeoffPath2026 {
+  0% { transform: translate(0, 0) rotate(10deg) scale(0.9); }
+  28% { transform: translate(25vw, -28vh) rotate(5deg) scale(1.0); }
+  60% { transform: translate(52vw, -54vh) rotate(12deg) scale(1.1); }
+  88% { transform: translate(74vw, -76vh) rotate(0deg) scale(1.18); }
+  100% { transform: translate(74vw, -76vh) rotate(-4deg) scale(1.2); }
+}
+
+.flame {
+  animation: flameFlicker 0.2s ease-in-out infinite alternate;
+  transform-origin: 60px 140px;
+}
+
+@keyframes flameFlicker {
+  from { transform: scaleY(1); opacity: 0.95; }
+  to { transform: scaleY(1.08) translateY(2px); opacity: 0.85; }
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: grid;
+  place-items: center;
+  z-index: 1000;
+  padding: 16px;
+  animation: fadeIn 0.3s ease;
+}
+
+.mission-card-2026 {
+  width: min(92vw, 480px);
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+  padding: 28px 24px;
+  text-align: center;
+  animation: popIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.badge-accomplished {
+  display: inline-block;
+  background: linear-gradient(135deg, #ff1493, #ff66b2);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  padding: 5px 14px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+
+.mission-card-2026 h3 {
+  font-size: 24px;
+  color: var(--text);
+  margin: 0 0 14px;
+  font-weight: 800;
+}
+
+.mission-timeline-chips {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.mission-timeline-chips span {
+  background: var(--cream);
+  padding: 4px 10px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+.mission-timeline-chips .arrow {
+  background: none;
+  border: none;
+  padding: 0 2px;
+  color: var(--pink-deep);
+}
+
+.mission-timeline-chips .highlight {
+  background: var(--pink-light);
+  border-color: #ff1493;
+  color: #ff1493;
+  font-weight: 700;
+}
+
+.mission-timeline-chips .forever {
+  background: linear-gradient(135deg, #ff1493, #ff66b2);
+  color: #fff;
+  border: none;
+  font-weight: 700;
+}
+
+.mission-text-desc {
+  font-size: 15px;
+  color: var(--text);
+  line-height: 1.6;
+  margin: 0 0 20px;
+}
+
+.mission-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-replay {
+  background: var(--bg-card);
+  border: 1.5px solid var(--border);
+  color: var(--text);
+  font-weight: 600;
+  padding: 10px 18px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-replay:hover {
+  background: var(--cream);
+  border-color: var(--pink-deep);
+  color: var(--pink-deep);
+}
+
+@media (max-width: 768px) {
+  .y2023-new { left: 6%; bottom: 10%; }
+  .y2024-new { left: 24%; bottom: 36%; }
+  .y2025-new { left: 50%; top: 40%; }
+  .y2026-new { right: 6%; top: 12%; }
+  .heart-planet-2026 { right: 4%; top: 6%; width: 140px; }
+  .path-2026 { animation-name: takeoffPath2026Mobile; }
+
+  @keyframes takeoffPath2026Mobile {
+    0% { transform: translate(0, 0) rotate(15deg) scale(0.85); }
+    28% { transform: translate(20vw, -24vh) rotate(5deg) scale(0.95); }
+    60% { transform: translate(45vw, -48vh) rotate(12deg) scale(1.05); }
+    88% { transform: translate(68vw, -74vh) rotate(0deg) scale(1.15); }
+    100% { transform: translate(68vw, -74vh) rotate(-3deg) scale(1.18); }
+  }
+}
+
+/* ==========================================================================
+   THANK YOU PAGE (ThankYou.jsx)
+   ========================================================================== */
+.video-stage {
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  background: var(--bg-gradient);
+  padding: 24px 16px;
+}
+
+.video-wrap {
+  margin: 16px auto 0;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 2px solid var(--border);
+  box-shadow: var(--shadow);
+  background: #000;
+  display: grid;
+  place-items: center;
+}
+
+.video-wrap.portrait {
+  width: clamp(280px, calc(100vw - 80px), 360px);
+  aspect-ratio: 9 / 16;
+}
+
+.video.vertical {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   display: block;
 }
 
-.card.polaroid-plain figcaption {
-  padding: 10px;
-  text-align: center;
-  font-size: 0.9rem;
-  color: #d63384;
+/* ==========================================================================
+   GLOBAL UTILITIES & KEYFRAMES
+   ========================================================================== */
+.sparkly {
+  position: relative;
 }
 
-/* ✅ Lightbox: แสดงภาพเต็มจอ */
-.lightbox {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.85);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 999;
-  cursor: zoom-out;
-  animation: fadeIn 0.4s ease forwards;
+.sparkly::after {
+  content: "";
+  position: absolute;
+  inset: -20% -20% auto -20%;
+  height: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4), transparent 40%),
+              radial-gradient(circle at 70% 60%, rgba(255, 255, 255, 0.3), transparent 45%);
+  animation: shimmer 6s ease-in-out infinite;
+  pointer-events: none;
 }
 
-.lightbox-img {
-  max-width: 90%;
-  max-height: 90%;
-  border-radius: 16px;
-  box-shadow: 0 0 30px rgba(255, 120, 170, 0.5);
-  animation: zoomIn 0.3s ease forwards;
+@keyframes shimmer {
+  0%, 100% { opacity: 0.3; transform: translateY(0); }
+  50% { opacity: 0.7; transform: translateY(10px); }
 }
 
 @keyframes fadeIn {
@@ -654,96 +1432,74 @@ body {
   to { opacity: 1; }
 }
 
-@keyframes zoomIn {
-  from { transform: scale(0.9); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+.hidden {
+  display: none !important;
 }
 
-
-/* ===== Birthday page grid: กันรูปผอมทุกขนาดจอ ===== */
-/* ===== BirthdayLock: จัดกริด 2 รูปต่อแถว + รูปแนวตั้งไม่ผอม ===== */
-.birthday-page .left { display: grid; } /* กันสไตล์เดิมรบกวน */
-
-/* ===== Force 2 columns on BirthdayLock, no matter what ===== */
-.birthday-page .birthday-grid{
-  display: grid !important;
-  grid-template-columns: 1fr 1fr !important;   /* บังคับ 2 คอลัมน์ตลอด */
-  gap: 16px !important;
-  max-width: 520px !important;                 /* ทำให้คอลัมน์กว้างขึ้น */
-  margin: 0 auto !important;
-  padding: 12px !important;
+/* ==========================================================================
+   DARK THEME DEDICATED OVERRIDES
+   ========================================================================== */
+[data-theme="dark"] .mission-stage {
+  background: radial-gradient(ellipse at 50% 20%, #1a0b25 0%, #110619 50%, #09030d 100%) !important;
 }
 
-/* การ์ด: ให้กินเต็มคอลัมน์ ห้ามกำหนดความกว้างเองจนเกิดคอลัมน์ที่สาม */
-.birthday-page .birthday-grid > *{
-  width: 100% !important;
-  justify-self: stretch !important;
+[data-theme="dark"] .big-heart {
+  background:
+    radial-gradient(ellipse 70% 45% at 50% 55%, rgba(255, 79, 162, 0.25), transparent 60%),
+    radial-gradient(ellipse 80% 60% at 50% 60%, rgba(180, 50, 150, 0.2), transparent 65%);
 }
 
-/* ตัวการ์ดรูป */
-.birthday-page .bday-card{
-  aspect-ratio: 2 / 3;                         /* แนวตั้งกำลังดี ไม่ผอม */
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 10px 26px rgba(255,130,180,.28);
-  overflow: hidden;
-  padding: 10px;
-  transition: transform .25s ease, box-shadow .25s ease;
+[data-theme="dark"] .heart-shape {
+  background: radial-gradient(120% 120% at 70% 20%, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0) 35%),
+              linear-gradient(180deg, #ffc0da, var(--heart-tint, #ff6fae));
+  box-shadow:
+    0 25px 70px rgba(0, 0, 0, 0.6),
+    0 0 45px rgba(255, 111, 174, 0.45),
+    inset -20px -18px 40px rgba(255, 70, 150, 0.35),
+    inset 0 0 60px rgba(255, 255, 255, 0.25);
 }
 
-/* รูปด้านใน */
-.birthday-page .bday-card img{
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover;
-  object-position: center top;
-  display: block;
+[data-theme="dark"] .stars, [data-theme="dark"] .stars::before {
+  opacity: 0.65 !important;
 }
 
-/* กันสไตล์เก่าที่ชอบบีบรูปหรือเปลี่ยนจำนวนคอลัมน์ */
-.polaroid-grid,
-.polaroid,
-.polaroid-card { width: auto !important; max-width: none !important; }
-
-/* Force 2 columns always */
-.birthday-page .birthday-grid{
-  display:grid !important;
-  grid-template-columns: 1fr 1fr !important;   /* ✅ บังคับ 2 คอลัมน์ */
-  gap:16px !important;
-  max-width:520px !important;                  /* ให้แต่ละคอลัมน์กว้างพอ */
-  margin:0 auto !important;
-  padding:12px !important;
-}
-.birthday-page .birthday-grid > *{
-  width:100% !important;
-  justify-self:stretch !important;
+[data-theme="dark"] .hero h1 {
+  text-shadow: 0 0 24px rgba(255, 79, 162, 0.7), 0 2px 4px rgba(0, 0, 0, 0.8) !important;
 }
 
-/* การ์ดและรูป: สี่เหลี่ยมแนวตั้ง ไม่ผอม */
-.birthday-page .bday-card{
-  background:#fff;
-  border-radius:16px;
-  box-shadow:0 10px 26px rgba(255,130,180,.28);
-  overflow:hidden;
-  width:100%;
-  aspect-ratio: 2 / 3;               /* แนวตั้งกำลังสวย */
-  padding:10px;                      /* กรอบขาวโพลารอยด์ */
-  transition:transform .25s, box-shadow .25s;
-}
-.birthday-page .bday-card img{
-  width:100% !important;
-  height:100% !important;
-  object-fit:cover;
-  object-position:center top;        /* โฟกัสใบหน้า */
-  border-radius:12px;
-  display:block;
-}
-.birthday-page .bday-card:hover{
-  transform:translateY(-2px);
-  box-shadow:0 14px 30px rgba(255,100,150,.36);
+[data-theme="dark"] .hero p {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95), 0 0 16px rgba(0, 0, 0, 0.8) !important;
+  background: rgba(18, 7, 24, 0.65) !important;
+  display: inline-block;
+  padding: 8px 22px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 120, 180, 0.45) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), 0 0 14px rgba(255, 79, 162, 0.25) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
-/* กันสไตล์เก่ามาบีบรูป/เปลี่ยนคอลัมน์ */
-.polaroid-grid, .polaroid, .polaroid-card{
-  width:auto !important; max-width:none !important;
+[data-theme="dark"] .hero-badge {
+  background: rgba(30, 12, 38, 0.88) !important;
+  color: #ff85c2 !important;
+  border-color: #ff4fa2 !important;
+  box-shadow: 0 0 16px rgba(255, 79, 162, 0.3) !important;
+}
+
+[data-theme="dark"] .title {
+  text-shadow: 0 0 16px rgba(255, 79, 162, 0.5) !important;
+}
+
+[data-theme="dark"] .bday-card {
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5), 0 0 14px rgba(255, 79, 162, 0.18) !important;
+}
+
+[data-theme="dark"] .side-photo {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), 0 0 18px rgba(255, 79, 162, 0.25) !important;
+}
+
+[data-theme="dark"] .video-wrap {
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 24px rgba(255, 79, 162, 0.25) !important;
 }
